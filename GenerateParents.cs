@@ -2,7 +2,7 @@ using System;
 
 namespace GeneticAlgorithm
 {
-	public class GenerateParents
+	public class GenerateParents : Parent
     {
         int NumberOfIntialParents;
         int GenomeWidth = -1;
@@ -20,28 +20,6 @@ namespace GeneticAlgorithm
             NumberOfIntialParents = initialAmountOfParents;
             ParentArray = new Parent[initialAmountOfParents];
         }
-
-        public GenerateParents(int initialAmountOfParents, int genomeWidth, int genomeHeight)
-        {
-            if(genomeWidth < 1)
-            {
-                Console.WriteLine("Error: genomeWidth must be altease 1.");
-                return;
-            }
-
-            if(genomeHeight < 1)
-            {
-                Console.WriteLine("Error: genomeHeight must be altease 1.");
-                return;
-            }
-
-            GenomeWidth = genomeWidth;
-            GenomeHeigth = genomeHeight;
-
-            NumberOfIntialParents = initialAmountOfParents;
-            ParentArray = new Parent[initialAmountOfParents];
-        }
-
         public void initalize()
         {
             int i;
@@ -59,6 +37,27 @@ namespace GeneticAlgorithm
                     ParentArray[i] = new Parent();
                 }
             }
+        }
+
+        public GenerateParents(int initialAmountOfParents, int genomeWidth, int genomeHeight)
+        {
+            if(genomeWidth < 1)
+            {
+                Console.WriteLine("Error: genomeWidth must be at least 1.");
+                return;
+            }
+
+            if(genomeHeight < 1)
+            {
+                Console.WriteLine("Error: genomeHeight must be at least 1.");
+                return;
+            }
+
+            GenomeWidth = genomeWidth;
+            GenomeHeigth = genomeHeight;
+
+            NumberOfIntialParents = initialAmountOfParents;
+            ParentArray = new Parent[initialAmountOfParents];
         }
 
         public void generateOffspring()
@@ -110,17 +109,23 @@ namespace GeneticAlgorithm
             }
         }
 
+        //public override string ToString()
+        //{
+        //    int i;
+        //    Console.Write("[ ");
+        //    for (i = 0; i < ParentArray.Length; i++)
+        //    {
+        //        ParentArray[i].ToString();
+        //    }
+
+        //    Console.Write(" ]");
+
+        //    return "";
+        //}
+
         public override string ToString()
         {
-            int i;
-            Console.Write("[ ");
-            for (i = 0; i < ParentArray.Length; i++)
-            {
-                ParentArray[i].ToString();
-            }
-
-            Console.Write(" ]");
-
+            ParentArray[0].ToString();
             return "";
         }
 

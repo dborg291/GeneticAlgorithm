@@ -39,21 +39,36 @@ namespace GeneticAlgorithm
             return Genome[row, col];
         }
 
+        //public override string ToString()
+        //{
+        //    int i, j;
+        //    for (i = 0; i < Genome.GetLength(0); i++)
+        //    {
+        //        Console.WriteLine("\n[");
+        //        for (j = 0; j < Genome.GetLength(1); j++)
+        //        {
+        //            Console.Write(Genome[i, j].ToString() + " ");
+        //        }
+
+        //        Console.WriteLine("]");
+        //    }
+
+        //    Console.Write(" ]");
+
+        //    return "";
+        //}
+
         public override string ToString()
         {
-            int i, j;
-            for (i = 0; i < Genome.GetLength(0); i++)
+            Console.WriteLine("Parent 1: ----------------------------------");
+            for (int i = 0; i < Genome.GetLength(0); i++)
             {
-                Console.WriteLine("\n[");
-                for (j = 0; j < Genome.GetLength(1); j++)
+                for(int j = 0; j < Genome.GetLength(1); j++)
                 {
                     Console.Write(Genome[i, j].ToString() + " ");
                 }
-
-                Console.WriteLine("]");
             }
-
-            Console.Write(" ]");
+            Console.WriteLine("Parent 1: ----------------------------------");
 
             return "";
         }
