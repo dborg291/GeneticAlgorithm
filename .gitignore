@@ -6,3 +6,6 @@ vs
 .obj\*
 /.vs
 /.vs/GeneticAlgorithm/v16/Server/sqlite3/db.lock
+.vscode
+bin
+/obj

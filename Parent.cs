@@ -9,7 +9,7 @@ namespace GeneticAlgorithm
         public double[,] Genome { get; }
         Random rand = new Random();
 
-        public Parent(int width = 10, int height = 10)
+        public Parent(int width = 2, int height = 2)
         {
 
             GenomeMatrixWidth = width;

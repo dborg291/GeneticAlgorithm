@@ -20,6 +20,7 @@ namespace GeneticAlgorithm
             NumberOfIntialParents = initialAmountOfParents;
             ParentArray = new Parent[initialAmountOfParents];
         }
+
         public void initalize()
         {
             int i;
@@ -69,6 +70,7 @@ namespace GeneticAlgorithm
             {
                 int parent1 = rand.Next(0, NumberOfIntialParents);
                 int parent2 = rand.Next(0, NumberOfIntialParents);
+
                 double[,] OffspringGenome = new double[Parent.GenomeMatrixHeight, Parent.GenomeMatrixWidth];
                 for (j = 0; j < ParentArray.GetLength(0); j++)
                 {
@@ -88,7 +90,6 @@ namespace GeneticAlgorithm
                                     OffspringGenome[j, k] = ParentArray[parent1].getTraitValue(j, k)+ mutation;
                                 }
                             }
-                            
                         }
                         else
                         {
@@ -107,6 +108,7 @@ namespace GeneticAlgorithm
 
                 OffSpring[i] = new Parent(OffspringGenome);
             }
+            ParentArray = OffSpring;
         }
 
         //public override string ToString()

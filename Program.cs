@@ -6,7 +6,7 @@ namespace GeneticAlgorithm
     {
         public static void Main()
         {
-            GenerateParents parents = new GenerateParents(4);
+            GenerateParents parents = new GenerateParents(2);
             parents.initalize();
 
             parents.ToString();
