@@ -35,6 +35,7 @@ namespace FCM
 			{
 
 				List<double> agentFitness = Fitness(Agents);
+
 				Agents = MutationFunction(agentFitness);
 			}
 		}
