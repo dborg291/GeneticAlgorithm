@@ -22,7 +22,10 @@ namespace FCM
 			NumberOfValues = NumberOfValues;
 			Iterations = iterations;
 			_agents = new List<List<double>>(population);
-			_agents[0] = CreateRandomArray(numberOfValues);
+			for (int i = 0; i < population; i++)
+			{
+				_agents.Add(CreateRandomArray(numberOfValues));
+			}
 		}
 
 		public abstract List<double> Fitness(List<List<double>> agents);
@@ -44,11 +47,13 @@ namespace FCM
 
 		protected Tuple<List<double>, List<double>> PickParents(List<double> agentReproductionProbabilites)
 		{
-			int firstParentIndex = SelectRandomWeightedIndex(agentReproductionProbabilites);
+			List<double> copy = new List<double>(agentReproductionProbabilites.Count);
+			copy.Concat(agentReproductionProbabilites);
+			int firstParentIndex = SelectRandomWeightedIndex(copy);
 
 			agentReproductionProbabilites[firstParentIndex] = 0; // first parent cannot be picked twice
 
-			int secondParentIndex = SelectRandomWeightedIndex(agentReproductionProbabilites);
+			int secondParentIndex = SelectRandomWeightedIndex(copy);
 
 			return Tuple.Create(Agents.ElementAt(firstParentIndex), Agents.ElementAt(secondParentIndex));
 		}
@@ -56,7 +61,7 @@ namespace FCM
 		private int SelectRandomWeightedIndex(List<double> weights)
 		{
 			Random random = new Random();
-			double value = random.NextDouble();
+			double value = random.NextDouble() * weights.Sum();
 			double sum = 0;
 			for (int i = 0; i < weights.Count; i++)
 			{
@@ -85,6 +90,16 @@ namespace FCM
 			}
 
 			return reproductionPercent;
+		}
+
+		public override String ToString()
+		{
+			String output = "\n";
+			for(int i = 0; i < Population; i++)
+			{
+				output +=  ("Agent[" + i+ "]: " + Agents[0].ToString() + "\n");
+			}
+			return output;
 		}
 	}
 }

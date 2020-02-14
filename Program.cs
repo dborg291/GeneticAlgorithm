@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FCM;
+using System;
 
 namespace GeneticAlgorithm
 {
@@ -6,7 +7,7 @@ namespace GeneticAlgorithm
     {
         public static void Main()
         {
-            GenerateParents parents = new GenerateParents(2);
+            /*GenerateParents parents = new GenerateParents(2);
             parents.initalize();
 
             parents.ToString();
@@ -16,7 +17,11 @@ namespace GeneticAlgorithm
                 parents.generateOffspring();
             }
 
-            parents.ToString();
+            parents.ToString();*/
+
+            FCMSplittingAlgorithm fcm = new FCMSplittingAlgorithm(4,10,10);
+            fcm.Run();
+            fcm.ToString();
         }
     }
 }

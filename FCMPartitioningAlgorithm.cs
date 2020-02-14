@@ -25,13 +25,13 @@ namespace FCM
 		{
 			List<List<double>> offspring = new List<List<double>>();
 			Random random = new Random();
-
+			ToString();
 			for (int i = 0; i < Population; i++)
 			{
 				Tuple<List<double>, List<double>> parents = PickParents(agentFitnessValues);
 				int splitIndex = random.Next(0, NumberOfValues);
 				List<double> child = parents.Item1.GetRange(0, splitIndex).Concat(parents.Item2.GetRange(splitIndex, parents.Item2.Count)).ToList();
-
+				child[random.Next(child.Count)] = random.NextDouble();
 				offspring.Add(child);
 
 				if (child.Count != parents.Item2.Count)
@@ -44,6 +44,7 @@ namespace FCM
 					Console.WriteLine("Error: child count != NumberOfValues");
 				}
 			}
+
 
 			return offspring;
 		}
