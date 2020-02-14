@@ -27,7 +27,7 @@ namespace FCM
 
 		public abstract List<double> Fitness(List<double[]> agents);
 
-		public abstract List<double[]> MutationFunction(List<double> agentFitness);
+		public abstract List<double[]> GenerateOffspring(List<double> agentFitness, List<double[]> agents);
 
 		private void Run()
 		{
@@ -36,7 +36,7 @@ namespace FCM
 
 				List<double> agentFitness = Fitness(Agents);
 
-				Agents = MutationFunction(agentFitness);
+				Agents = GenerateOffspring(agentFitness, Agents);
 			}
 		}
 
@@ -48,6 +48,20 @@ namespace FCM
 				.Repeat(0, length)
 				.Select(i => random.NextDouble())
 				.ToArray();
+		}
+
+		private List<double> CalculateReproductionPercent(List<double> agentFitness)
+		{
+			List<double> reproductionPercent = new List<double>();
+			double allAgengtsFitness = agentFitness.Sum();
+
+			foreach (double agent in agentFitness)
+			{
+				double agentReproductionPercent = (agent / allAgengtsFitness) * 100;
+				reproductionPercent.Add(agentReproductionPercent);
+			}
+
+			return reproductionPercent;
 		}
 	}
 }

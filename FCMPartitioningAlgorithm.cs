@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -21,9 +22,30 @@ namespace FCM {
             
         }
 
-        public override List<double[]> MutationFunction(List<double> agentFitness)
+        public override List<double[]> GenerateOffspring(List<double> agentGenome, List<double[]> agents)
         {
-            throw new System.NotImplementedException();
+            List<double[]> offspring = new List<double[]>();
+            List<double> mutatedGenome = new List<double>(agentGenome);
+
+            var random = new Random();
+            int numberOfPossibleMutation = random.Next(agentGenome.Count);
+
+
+            
+
+
+            foreach(double agent in agentGenome)
+            {
+
+            }
+
+            int i = 0;
+            while(i < numberOfPossibleMutation)
+            {
+                int mutationChance = random.Next(2);
+            }
+
+            return offspring;
         }
     }
 }
