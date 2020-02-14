@@ -688,23 +688,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Daniel.000\\.nuget\\packages\\": {},
+    "C:\\Users\\alexw\\.nuget\\packages\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Daniel.000\\eclipse-workspace\\hillClimber\\src\\GeneticAlgorithm\\GeneticAlgorithm.csproj",
+      "projectUniqueName": "C:\\Users\\alexw\\source\\repos\\GeneticAlgorithm\\GeneticAlgorithm.csproj",
       "projectName": "GeneticAlgorithm",
-      "projectPath": "C:\\Users\\Daniel.000\\eclipse-workspace\\hillClimber\\src\\GeneticAlgorithm\\GeneticAlgorithm.csproj",
-      "packagesPath": "C:\\Users\\Daniel.000\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Daniel.000\\eclipse-workspace\\hillClimber\\src\\GeneticAlgorithm\\obj\\",
+      "projectPath": "C:\\Users\\alexw\\source\\repos\\GeneticAlgorithm\\GeneticAlgorithm.csproj",
+      "packagesPath": "C:\\Users\\alexw\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\alexw\\source\\repos\\GeneticAlgorithm\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\Daniel.000\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\alexw\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [

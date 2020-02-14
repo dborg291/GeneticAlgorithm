@@ -7,47 +7,70 @@ namespace FCM
 	abstract class FCM
 	{
 
-		private List<double[]> _agents;
+		private List<List<double>> _agents;
 
-		int NumberOfValues { get; }
-		int Population { get; }
+		protected int NumberOfValues { get; }
+		protected int Population { get; }
 
 		int Iterations { get; }
 
-		List<double[]> Agents { get => _agents; set { _agents = value; } }
+		List<List<double>> Agents { get => _agents; set { _agents = value; } }
 
 		public FCM(int population, int numberOfValues, int iterations)
 		{
 			Population = population;
 			NumberOfValues = NumberOfValues;
 			Iterations = iterations;
-			_agents = new List<double[]>(population);
+			_agents = new List<List<double>>(population);
 			_agents[0] = CreateRandomArray(numberOfValues);
 		}
 
-		public abstract List<double> Fitness(List<double[]> agents);
+		public abstract List<double> Fitness(List<List<double>> agents);
 
-		public abstract List<double[]> GenerateOffspring(List<double> agentFitness, List<double[]> agents);
+		public abstract List<List<double>> GenerateOffspring(List<double> agentFitness);
 
-		private void Run()
+		public void Run()
 		{
 			for (int epoch = 0; epoch < Iterations; epoch++)
 			{
 
 				List<double> agentFitness = Fitness(Agents);
 
-				Agents = GenerateOffspring(agentFitness, Agents);
+				List<double> agentReproductionPercentages = CalculateReproductionPercent(agentFitness);
+
+				Agents = GenerateOffspring(agentReproductionPercentages);
 			}
 		}
 
-		private double[] CreateRandomArray(int length)
+		protected Tuple<List<double>, List<double>> PickParents(List<double> agentReproductionProbabilites)
+		{
+			int firstParentIndex = SelectRandomWeightedIndex(agentReproductionProbabilites);
+
+			agentReproductionProbabilites[firstParentIndex] = 0; // first parent cannot be picked twice
+
+			int secondParentIndex = SelectRandomWeightedIndex(agentReproductionProbabilites);
+
+			return Tuple.Create(Agents.ElementAt(firstParentIndex), Agents.ElementAt(secondParentIndex));
+		}
+
+		private int SelectRandomWeightedIndex(List<double> weights)
 		{
 			Random random = new Random();
+			double value = random.NextDouble();
+			double sum = 0;
+			for (int i = 0; i < weights.Count; i++)
+			{
+				sum += weights.ElementAt(i);
+				if (value < sum)
+					return i;
+			}
+			throw new Exception("SelectRandomWeightedIndex did not find index.");
+		}
 
-			return Enumerable
-				.Repeat(0, length)
-				.Select(i => random.NextDouble())
-				.ToArray();
+		private List<double> CreateRandomArray(int length)
+		{
+			Random random = new Random();
+			return Enumerable.Repeat(0, length).Select(i => random.NextDouble()).ToList();
 		}
 
 		private List<double> CalculateReproductionPercent(List<double> agentFitness)
@@ -57,7 +80,7 @@ namespace FCM
 
 			foreach (double agent in agentFitness)
 			{
-				double agentReproductionPercent = (agent / allAgengtsFitness) * 100;
+				double agentReproductionPercent = agent / allAgengtsFitness;
 				reproductionPercent.Add(agentReproductionPercent);
 			}
 

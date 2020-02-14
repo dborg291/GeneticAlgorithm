@@ -2,50 +2,50 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace FCM {
-    class FCMSplittingAlgorithm : FCM
-    {
-        public FCMSplittingAlgorithm(int population, int numberOfValues, int iterations): base(population, numberOfValues, iterations)
-        {
+namespace FCM
+{
+	class FCMSplittingAlgorithm : FCM
+	{
+		public FCMSplittingAlgorithm(int population, int numberOfValues, int iterations) : base(population, numberOfValues, iterations) { }
 
-        }
-        public override List<double> Fitness(List<double[]> agents)
-        {
-            List<double> agentFitnessValues = new List<double>();
-            foreach(double[] agent in agents)
-            {
-                double fitness = agent.Average();
-                agentFitnessValues.Add(fitness);
-            }
+		public override List<double> Fitness(List<List<double>> agents)
+		{
+			List<double> agentFitnessValues = new List<double>();
 
-            return agentFitnessValues;
-            
-        }
+			foreach (List<double> agent in agents)
+			{
+				double fitness = agent.Average();
+				agentFitnessValues.Add(fitness);
+			}
 
-        public override List<double[]> GenerateOffspring(List<double> agentGenome, List<double[]> agents)
-        {
-            List<double[]> offspring = new List<double[]>();
-            List<double> mutatedGenome = new List<double>(agentGenome);
+			return agentFitnessValues;
+		}
 
-            var random = new Random();
-            int numberOfPossibleMutation = random.Next(agentGenome.Count);
+		public override List<List<double>> GenerateOffspring(List<double> agentFitnessValues)
+		{
+			List<List<double>> offspring = new List<List<double>>();
+			Random random = new Random();
 
+			for (int i = 0; i < Population; i++)
+			{
+				Tuple<List<double>, List<double>> parents = PickParents(agentFitnessValues);
+				int splitIndex = random.Next(0, NumberOfValues);
+				List<double> child = parents.Item1.GetRange(0, splitIndex).Concat(parents.Item2.GetRange(splitIndex, parents.Item2.Count)).ToList();
 
-            
+				offspring.Add(child);
 
+				if (child.Count != parents.Item2.Count)
+				{
+					Console.WriteLine("Error: child count != parent count");
+				}
 
-            foreach(double agent in agentGenome)
-            {
+				if (child.Count != NumberOfValues)
+				{
+					Console.WriteLine("Error: child count != NumberOfValues");
+				}
+			}
 
-            }
-
-            int i = 0;
-            while(i < numberOfPossibleMutation)
-            {
-                int mutationChance = random.Next(2);
-            }
-
-            return offspring;
-        }
-    }
+			return offspring;
+		}
+	}
 }
