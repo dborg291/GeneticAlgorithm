@@ -19,9 +19,9 @@ namespace GeneticAlgorithm
 
             parents.ToString();*/
 
-            FCMSplittingAlgorithm fcm = new FCMSplittingAlgorithm(4,10,10);
+            FCMSplittingAlgorithm fcm = new FCMSplittingAlgorithm(500,100,10000);
             fcm.Run();
-            fcm.ToString();
+            Console.WriteLine(fcm.ToString());
         }
     }
 }

@@ -6,20 +6,20 @@ namespace FCM
 {
 	abstract class FCM
 	{
-
+		protected const int SEED = 22222222;
 		private List<List<double>> _agents;
 
 		protected int NumberOfValues { get; }
 		protected int Population { get; }
 
-		int Iterations { get; }
+		protected int Iterations { get; }
 
 		List<List<double>> Agents { get => _agents; set { _agents = value; } }
 
 		public FCM(int population, int numberOfValues, int iterations)
 		{
 			Population = population;
-			NumberOfValues = NumberOfValues;
+			NumberOfValues = numberOfValues;
 			Iterations = iterations;
 			_agents = new List<List<double>>(population);
 			for (int i = 0; i < population; i++)
@@ -38,7 +38,8 @@ namespace FCM
 			{
 
 				List<double> agentFitness = Fitness(Agents);
-
+				// Console.WriteLine("Epoch: {0}\n" + ToString(), epoch);
+				Console.WriteLine("Epoch: {0}\n" + AverageFitness(), epoch);
 				List<double> agentReproductionPercentages = CalculateReproductionPercent(agentFitness);
 
 				Agents = GenerateOffspring(agentReproductionPercentages);
@@ -47,8 +48,7 @@ namespace FCM
 
 		protected Tuple<List<double>, List<double>> PickParents(List<double> agentReproductionProbabilites)
 		{
-			List<double> copy = new List<double>(agentReproductionProbabilites.Count);
-			copy.Concat(agentReproductionProbabilites);
+			List<double> copy = agentReproductionProbabilites.ToList();
 			int firstParentIndex = SelectRandomWeightedIndex(copy);
 
 			agentReproductionProbabilites[firstParentIndex] = 0; // first parent cannot be picked twice
@@ -74,18 +74,18 @@ namespace FCM
 
 		private List<double> CreateRandomArray(int length)
 		{
-			Random random = new Random();
+			Random random = new Random(SEED);
 			return Enumerable.Repeat(0, length).Select(i => random.NextDouble()).ToList();
 		}
 
 		private List<double> CalculateReproductionPercent(List<double> agentFitness)
 		{
 			List<double> reproductionPercent = new List<double>();
-			double allAgengtsFitness = agentFitness.Sum();
+			double sumOfFitnessValues = agentFitness.Sum();
 
 			foreach (double agent in agentFitness)
 			{
-				double agentReproductionPercent = agent / allAgengtsFitness;
+				double agentReproductionPercent = agent / sumOfFitnessValues;
 				reproductionPercent.Add(agentReproductionPercent);
 			}
 
@@ -94,12 +94,17 @@ namespace FCM
 
 		public override String ToString()
 		{
+			var fitness = Fitness(Agents);
 			String output = "\n";
 			for(int i = 0; i < Population; i++)
 			{
-				output +=  ("Agent[" + i+ "]: " + Agents[0].ToString() + "\n");
+				output +=  ("Agent[" + i+ "] Fitness: " + fitness[i] + "\nValues: " + string.Join(",", Agents[i]) + "\n");
 			}
 			return output;
+		}
+
+		private double AverageFitness() {
+			return Fitness(Agents).Sum() / Agents.Count;
 		}
 	}
 }
