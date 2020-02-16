@@ -48,12 +48,15 @@ namespace FCM
 
 		protected Tuple<List<double>, List<double>> PickParents(List<double> agentReproductionProbabilites)
 		{
-			List<double> copy = agentReproductionProbabilites.ToList();
-			int firstParentIndex = SelectRandomWeightedIndex(copy);
+			int firstParentIndex = SelectRandomWeightedIndex(agentReproductionProbabilites);
+
+			double temp = agentReproductionProbabilites[firstParentIndex];
 
 			agentReproductionProbabilites[firstParentIndex] = 0; // first parent cannot be picked twice
 
-			int secondParentIndex = SelectRandomWeightedIndex(copy);
+			int secondParentIndex = SelectRandomWeightedIndex(agentReproductionProbabilites);
+
+			agentReproductionProbabilites[firstParentIndex] = temp;
 
 			return Tuple.Create(Agents.ElementAt(firstParentIndex), Agents.ElementAt(secondParentIndex));
 		}
