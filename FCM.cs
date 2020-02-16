@@ -39,8 +39,8 @@ namespace FCM
 
 				List<double> agentFitness = Fitness(Agents);
 				// Console.WriteLine("Epoch: {0}\n" + ToString(), epoch);
-				Console.WriteLine("Epoch: {0}\n" + AverageFitness(), epoch);
-				List<double> agentReproductionPercentages = CalculateReproductionPercent(agentFitness);
+				Console.WriteLine("Epoch: {0}\n Avg: {1,1:F4}, Max: {2,1:F4}", epoch, AverageFitness(), MaxFitness());
+				List<double> agentReproductionPercentages = CalculateReproductionPercent(agentFitness.ToList());
 
 				Agents = GenerateOffspring(agentReproductionPercentages);
 			}
@@ -48,8 +48,15 @@ namespace FCM
 
 		protected Tuple<List<double>, List<double>> PickParents(List<double> agentReproductionProbabilites)
 		{
-			int firstParentIndex = SelectRandomWeightedIndex(agentReproductionProbabilites);
+			// int one = agentReproductionProbabilites.FindIndex(x => x == agentReproductionProbabilites.Max());
+			// double temp = agentReproductionProbabilites[one];
 
+			// agentReproductionProbabilites[one] = 0; // first parent cannot be picked twice
+			// int two = agentReproductionProbabilites.FindIndex(x => x == agentReproductionProbabilites.Max());
+			// return Tuple.Create(Agents[one], Agents[two]);
+			// agentReproductionProbabilites[one] = temp;
+
+			int firstParentIndex = SelectRandomWeightedIndex(agentReproductionProbabilites);
 			double temp = agentReproductionProbabilites[firstParentIndex];
 
 			agentReproductionProbabilites[firstParentIndex] = 0; // first parent cannot be picked twice
@@ -99,15 +106,21 @@ namespace FCM
 		{
 			var fitness = Fitness(Agents);
 			String output = "\n";
-			for(int i = 0; i < Population; i++)
+			for (int i = 0; i < Population; i++)
 			{
-				output +=  ("Agent[" + i+ "] Fitness: " + fitness[i] + "\nValues: " + string.Join(",", Agents[i]) + "\n");
+				output += ("Agent[" + i + "] Fitness: " + fitness[i] + "\nValues: " + string.Join(",", Agents[i]) + "\n");
 			}
 			return output;
 		}
 
-		private double AverageFitness() {
+		private double AverageFitness()
+		{
 			return Fitness(Agents).Sum() / Agents.Count;
+		}
+
+		private double MaxFitness()
+		{
+			return Fitness(Agents).Max();
 		}
 	}
 }
