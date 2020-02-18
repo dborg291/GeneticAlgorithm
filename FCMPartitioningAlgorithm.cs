@@ -6,7 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.Concurrent;
 
-namespace FCM
+namespace CognitiveABM.FCM
 {
 	class FCMSplittingAlgorithm : FCM
 	{

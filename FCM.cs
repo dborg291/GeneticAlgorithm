@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace FCM
+namespace CognitiveABM.FCM
 {
 	abstract class FCM
 	{
