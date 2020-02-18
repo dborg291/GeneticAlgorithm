@@ -90,25 +90,9 @@ namespace PerceptronMaker
 						Weights.Add(neuronWeights);
 						neuronIndex++;
 					}
-
 				}
 				
-
 			}
-
-			/*for (int i = 0; i < Outputneurons; i++) // mapping weights from each the last hiden layer neurons to the output neurons
-			{
-				List<int> neuronWeights = new List<int>();
-				int minGenomeIndex = genomeIndex;
-				for (int j = genomeIndex; j < minGenomeIndex + Outputneurons; j++)
-				{
-					neuronWeights.Add(genomeIndex);
-					genomeIndex++;
-				}
-				Weights.Add(neuronWeights);
-				neuronIndex++;
-			}*/
-
 			return Weights;
 		}
 
