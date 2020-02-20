@@ -98,7 +98,6 @@ namespace CognitiveABM.Perceptron
 						neuronIndex++;
 					}
 				}
-
 			}
 			return Weights;
 		}
