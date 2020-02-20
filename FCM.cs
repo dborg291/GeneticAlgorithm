@@ -38,24 +38,15 @@ namespace CognitiveABM.FCM
 			{
 
 				List<double> agentFitness = Fitness(Agents);
-				// Console.WriteLine("Epoch: {0}\n" + ToString(), epoch);
 				Console.WriteLine("Epoch: {0}\n Avg: {1,1:F4}, Max: {2,1:F4}", epoch, AverageFitness(), MaxFitness());
 				List<double> agentReproductionPercentages = CalculateReproductionPercent(agentFitness.ToList());
-
 				Agents = GenerateOffspring(agentReproductionPercentages);
+
 			}
 		}
 
 		protected Tuple<List<double>, List<double>> PickParents(List<double> agentReproductionProbabilites)
 		{
-			// int one = agentReproductionProbabilites.FindIndex(x => x == agentReproductionProbabilites.Max());
-			// double temp = agentReproductionProbabilites[one];
-
-			// agentReproductionProbabilites[one] = 0; // first parent cannot be picked twice
-			// int two = agentReproductionProbabilites.FindIndex(x => x == agentReproductionProbabilites.Max());
-			// return Tuple.Create(Agents[one], Agents[two]);
-			// agentReproductionProbabilites[one] = temp;
-
 			int firstParentIndex = SelectRandomWeightedIndex(agentReproductionProbabilites);
 			double temp = agentReproductionProbabilites[firstParentIndex];
 
@@ -65,7 +56,7 @@ namespace CognitiveABM.FCM
 
 			agentReproductionProbabilites[firstParentIndex] = temp;
 
-			return Tuple.Create(Agents.ElementAt(firstParentIndex), Agents.ElementAt(secondParentIndex));
+			return Tuple.Create(Agents[firstParentIndex], Agents[secondParentIndex]);
 		}
 
 		private int SelectRandomWeightedIndex(List<double> weights)
@@ -92,10 +83,15 @@ namespace CognitiveABM.FCM
 		{
 			List<double> reproductionPercent = new List<double>();
 			double sumOfFitnessValues = agentFitness.Sum();
+			double averageFitness = AverageFitness();
 
-			foreach (double agent in agentFitness)
+			foreach (double fitnessValue in agentFitness)
 			{
-				double agentReproductionPercent = agent / sumOfFitnessValues;
+				double multiplier = 1;
+				if (fitnessValue > averageFitness) {
+					multiplier = 1.25;
+				}
+				double agentReproductionPercent = (fitnessValue*multiplier) / sumOfFitnessValues;
 				reproductionPercent.Add(agentReproductionPercent);
 			}
 

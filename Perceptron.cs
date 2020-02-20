@@ -1,9 +1,9 @@
-using System;
 using System.Collections.Generic;
+using System;
 
-namespace PerceptronMaker
+namespace CognitiveABM.Perceptron
 {
-	public class Perceptron
+	public class PerceptronFactory
 	{
 		protected int Inputneurons { get; }
 		protected int NumberOfHiddenLayers { get; }
@@ -11,19 +11,20 @@ namespace PerceptronMaker
 		protected int Outputneurons { get; }
 		List<List<int>> Weights;
 
-		public Perceptron(int inputs, int hiddenLayers, int neuronsPerHiddenLayer, int outputs)
+		public PerceptronFactory(int inputs, int hiddenLayers, int neuronsPerHiddenLayer, int outputs)
 		{
 			Inputneurons = inputs;
 			NumberOfHiddenLayers = hiddenLayers;
 			NeuronsPerHiddenLayer = neuronsPerHiddenLayer;
 			Outputneurons = outputs;
-			GenomeToWeights();
+			GenomeToWeights((inputs*inputs + (4*inputs*inputs) + (2 * inputs)));
 		}
-		public List<List<int>> GenomeToWeights()
+		public List<List<int>> GenomeToWeights(int genes)
 		{
+			int geneIndex = 0;
 			Weights = new List<List<int>>();
 
-			int genomeIndex = 0;
+			// int genomeIndex = 0;
 			int neuronIndex = 0;
 
 			for (int i = 0; i < Inputneurons; i++) // mapping weights from each input neuron to the first hidden layer neurons
@@ -31,15 +32,16 @@ namespace PerceptronMaker
 				List<int> neuronWeights = new List<int>();
 				for (int j = neuronIndex; j < neuronIndex + NeuronsPerHiddenLayer; j++)
 				{
-					neuronWeights.Add(genomeIndex + Inputneurons);
-					genomeIndex++;
+					neuronWeights.Add(geneIndex);
+					geneIndex++;
+					// genomeIndex++;
 				}
-				genomeIndex = 0;
+				// genomeIndex = 0;
 				Weights.Add(neuronWeights);
 				neuronIndex++;
 			}
 
-			genomeIndex += Inputneurons;
+			// genomeIndex += Inputneurons;
 			for (int i = 0; i < NumberOfHiddenLayers; i++) // mapping weights from each hiden layer neuron to itself, to the prvious neurons, and to the forward neurons
 			{
 				int self = neuronIndex;
@@ -47,51 +49,56 @@ namespace PerceptronMaker
 				{
 					self += j;
 					List<int> neuronWeights = new List<int>();
-					neuronWeights.Add(neuronIndex); // add the weight to itself
+					neuronWeights.Add(geneIndex); // add the weight to itself
+					geneIndex++;
 
-					genomeIndex++;
+					// genomeIndex++;
 
 					if (i == 0) //linking to input neurons
 					{
-						genomeIndex = 0;
+						// genomeIndex = 0;
 						for (int k = (self - Inputneurons); k < self; k++)
 						{
-							neuronWeights.Add(genomeIndex);
-							genomeIndex++;
+							neuronWeights.Add(geneIndex);
+							geneIndex++;
+							// genomeIndex++;
 						}
-						genomeIndex = self + j + 1;
+						// genomeIndex = self + j + 1;
 					}
 					else // linking to past hidden layer
 					{
-						genomeIndex = Inputneurons + (NeuronsPerHiddenLayer * (i - 1));
+						// genomeIndex = Inputneurons + (NeuronsPerHiddenLayer * (i - 1));
 						for (int k = (self - NeuronsPerHiddenLayer); k < self; k++)
 						{
-							neuronWeights.Add(genomeIndex);
-							genomeIndex++;
+							neuronWeights.Add(geneIndex);
+							geneIndex++;
+							// genomeIndex++;
 						}
-						genomeIndex = self + j + 1;
+						// genomeIndex = self + j + 1;
 					}
 
 					if (i != NumberOfHiddenLayers - 1)
 					{
 						for (int k = (neuronIndex + NeuronsPerHiddenLayer); k < neuronIndex + (NeuronsPerHiddenLayer * 2); k++) // add the weights to the forward neurons
 						{
-							neuronWeights.Add(k - j);
+							neuronWeights.Add(geneIndex);
+							geneIndex++;
 						}
 						Weights.Add(neuronWeights);
 						neuronIndex++;
 					}
 					else
 					{
-						for (int k = (neuronIndex+NeuronsPerHiddenLayer); k < neuronIndex + NeuronsPerHiddenLayer + Outputneurons; k++) // add the weights to the forward neurons
+						for (int k = (neuronIndex + NeuronsPerHiddenLayer); k < neuronIndex + NeuronsPerHiddenLayer + Outputneurons; k++) // add the weights to the forward neurons
 						{
-							neuronWeights.Add(k - j);
+							neuronWeights.Add(geneIndex);
+							geneIndex++;
 						}
 						Weights.Add(neuronWeights);
 						neuronIndex++;
 					}
 				}
-				
+
 			}
 			return Weights;
 		}
@@ -99,9 +106,14 @@ namespace PerceptronMaker
 		public override string ToString()
 		{
 			string output = "";
-			for(int i = 0; i < Weights.Count; i++)
+			for (int i = 0; i < Weights.Count; i++)
 			{
-				output += ("\n" + Weights[i] + "\n");
+				for (int j = 0; j < Weights[i].Count; j++)
+				{
+
+					output += (Weights[i][j] + " ");
+				}
+				output += ("\n");
 			}
 			return output;
 		}
