@@ -8,9 +8,9 @@ using System.Collections.Concurrent;
 
 namespace CognitiveABM.FCM
 {
-	class FCMSplittingAlgorithm : FCM
+	class HillClimberFCM : FCM
 	{
-		public FCMSplittingAlgorithm(int population, int numberOfValues, int iterations) : base(population, numberOfValues, iterations) { }
+		public HillClimberFCM(int population, int numberOfValues, int iterations) : base(population, numberOfValues, iterations) { }
 
 		public override List<double> Fitness(List<List<double>> agents)
 		{
