@@ -14,6 +14,8 @@ namespace CognitiveABM.FCM
 
 		protected int Iterations { get; }
 
+		private double FitnessTarget = 0.98;
+
 		List<List<double>> Agents { get => _agents; set { _agents = value; } }
 
 		public FCM(int population, int numberOfValues, int iterations)
@@ -39,9 +41,12 @@ namespace CognitiveABM.FCM
 
 				List<double> agentFitness = Fitness(Agents);
 				Console.WriteLine("Epoch: {0}\n Avg: {1,1:F4}, Max: {2,1:F4}", epoch, AverageFitness(), MaxFitness());
+				if (AverageFitness() >= FitnessTarget) {
+					Console.WriteLine("FitnessTarget met.");
+					break;
+				}
 				List<double> agentReproductionPercentages = CalculateReproductionPercent(agentFitness.ToList());
 				Agents = GenerateOffspring(agentReproductionPercentages);
-
 			}
 		}
 
